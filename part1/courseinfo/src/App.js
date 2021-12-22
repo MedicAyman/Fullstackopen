@@ -7,15 +7,16 @@ const Header = ({course}) => {
 // assuming the number of parts = exercises
 const Content = ({parts, exercises}) => {
   return <>
-   {
-     exercises.map((e, i) => <p>{parts[i]} {e}</p>)
-   }
+    <Part parts={parts} exercises={exercises} />
   </>
 }
 
+const Part = ({parts, exercises}) => {
+  return exercises.map((e, i) => <p>{parts[i]} {e}</p>)
+}
 const Total = ({exercises}) => {
-  return <p>
-    {exercises.filter(x => x).length}
+  return <p> Total:
+     {exercises.filter(x => x).length}
   </p>
 }
 
