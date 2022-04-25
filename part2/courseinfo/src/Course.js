@@ -2,7 +2,7 @@ import React from "react";
 
 export default function Course({ course }) {
 
-
+  // already done using reduce, calculates the sum of exercises
   let totalExercises = course.parts.reduce((sum, part) => {
     return sum += part.exercises
   }, 0)
