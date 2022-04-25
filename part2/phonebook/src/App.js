@@ -1,25 +1,28 @@
-import { useState } from 'react'
+import { useState } from "react";
 
 const App = () => {
-  const [persons, setPersons] = useState([
-    { name: 'Arto Hellas' }
-  ]) 
-  const [newName, setNewName] = useState('')
-
+  const [persons, setPersons] = useState([{ name: "Arto" }]);
+  const [newName, setNewName] = useState("");
 
   const handleChange = (event) => {
-    setNewName(event.target.value)
-  }
+    setNewName(event.target.value);
+  };
+
 
   const addName = (event) => {
-    event.preventDefault()
-    let p = {
-      name: newName
+    event.preventDefault();
+    if (persons.map(person => person.name).includes(newName)) {
+      window.alert(`${newName} is already added to phonebook`);
+    } else {
+      let p = {
+        name: newName,
+      };
+      setPersons(persons.concat(p));
+      setNewName("");
     }
-    setPersons(persons.concat(p))
-    setNewName('')
+  };
 
-  }
+  
   return (
     <div>
       <h2>Phonebook</h2>
@@ -34,10 +37,12 @@ const App = () => {
       </form>
       <h2>Numbers</h2>
       <ul>
-        {persons.map(p => <li key={p.name + Math.random()}>{p.name}</li>)}
+        {persons.map((p) => (
+          <li key={p.name + Math.random()}>{p.name}</li>
+        ))}
       </ul>
     </div>
-  )
-}
+  );
+};
 
-export default App
+export default App;
