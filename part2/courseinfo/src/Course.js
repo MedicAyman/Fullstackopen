@@ -1,3 +1,6 @@
+/*
+Course component to display courses, their name, exercises, number of exo 
+*/
 import React from "react";
 
 export default function Course({ course }) {
