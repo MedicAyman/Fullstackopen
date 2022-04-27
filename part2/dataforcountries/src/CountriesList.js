@@ -2,6 +2,9 @@ import React from "react";
 import Country from "./Country";
 
 export default function CountriesList({ countries }) {
+  if (countries.length > 10) {
+    return <p>more than 10, be more specific</p>;
+  }
   let displayList = () => {
     if (countries.lenght <= 10) {
       displayList = countries.map((country) => {
@@ -11,17 +14,17 @@ export default function CountriesList({ countries }) {
       return displayList;
     }
   };
-  console.log("length of the array: ", countries.length)
+  console.log("length of the array: ", countries.length);
   return (
     <>
       <br></br>
       <h2>Countries list </h2>
       <ul>
-        {countries.length >= 10 ? (
-         <p>more than 10</p>
+        {countries.length === 1 ? (
+          <Country country={countries[0]} />
         ) : (
           React.Children.toArray(
-            countries.map((c, index) => <Country country={c} />)
+            countries.map((c) => <li>{c.name.official}</li>)
           )
         )}
       </ul>
