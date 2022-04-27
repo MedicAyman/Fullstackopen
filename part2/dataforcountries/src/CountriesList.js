@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import Country from "./Country";
 
 export default function CountriesList({ countries }) {
+ 
   if (countries.length > 10) {
     return <p>more than 10, be more specific</p>;
   }
@@ -14,7 +15,8 @@ export default function CountriesList({ countries }) {
       return displayList;
     }
   };
-  console.log("length of the array: ", countries.length);
+
+  
   return (
     <>
       <br></br>
@@ -23,9 +25,7 @@ export default function CountriesList({ countries }) {
         {countries.length === 1 ? (
           <Country country={countries[0]} />
         ) : (
-          React.Children.toArray(
-            countries.map((c) => <li>{c.name.official}</li>)
-          )
+          React.Children.toArray(countries.map((c) => <Country country={c} />))
         )}
       </ul>
     </>
