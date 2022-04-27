@@ -1,5 +1,6 @@
 import React from "react";
 import { useState } from "react";
+import Weather from "./Weather";
 
 export default function Country({ country }) {
   const [show, setShow] = useState(false);
@@ -31,6 +32,7 @@ export default function Country({ country }) {
             )}
           </ul>
           <img src={country.flags.png} />
+          <Weather country={country} />
         </>
       )}
     </li>
