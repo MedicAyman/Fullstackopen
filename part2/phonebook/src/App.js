@@ -1,25 +1,22 @@
-import Form from "./Form";
-import Search from "./Search";
+import Form from "./components/Form";
+import Search from "./components/Search";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import BookService from "./components/BookService";
 
 const App = () => {
   const [persons, setPersons] = useState([]);
 
   useEffect(() => {
-    axios.get("http://localhost:3001/persons").then((response) => {
-      console.log("data fetched: ", response.data);
-      setPersons(response.data)
-    });
-    
+    BookService.getAll().then(initialList => setPersons(initialList))
   }, []);
-console.log(persons)
+  
   return (
     <div>
       <h2>Phonebook</h2>
 
       <Form persons={persons} setPersons={setPersons} />
-      <Search persons={persons} />
+      <Search persons={persons} setPersons={setPersons}/>
     </div>
   );
 };
