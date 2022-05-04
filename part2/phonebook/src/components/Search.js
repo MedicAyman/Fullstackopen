@@ -3,7 +3,7 @@ import { useState } from "react";
 
 import { PersonsList } from "./PersonsList";
 
-export default function Search({ persons, setPersons}) {
+export default function Search({ persons, setPersons, setNotification}) {
   const [search, setNewSearch] = useState("");
   const [searchResult, setNewSearchResult] = useState(persons);
 
@@ -23,7 +23,7 @@ export default function Search({ persons, setPersons}) {
       <div>
         Search: <input value={search} onChange={handleChangeSearch} />
       </div>
-      <PersonsList searchResult={searchResult} setPersons={setPersons} persons={persons}/>
+      <PersonsList searchResult={searchResult} setPersons={setPersons} persons={persons} setNotification={setNotification}/>
     </>
   );
 }

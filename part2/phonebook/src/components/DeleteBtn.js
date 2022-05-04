@@ -1,7 +1,12 @@
 import React from "react";
 import BookService from "./BookService";
 
-export default function DeleteBtn({ person, setPersons, persons }) {
+export default function DeleteBtn({
+  person,
+  setPersons,
+  persons,
+  setNotification,
+}) {
   const handleDelete = (id) => {
     if (window.confirm(`sure you wanna delete ${person.name} phone's number`)) {
       BookService.remove(id)
@@ -10,7 +15,12 @@ export default function DeleteBtn({ person, setPersons, persons }) {
           setPersons(newList);
           console.log("updated state", persons);
         })
-        .catch((res) => console.log("error catched: ", res));
+        .catch((res) => {
+          setNotification({ content: "already deleted", type: "error" });
+          setTimeout(() => {
+            setNotification(null);
+          }, 5000);
+        });
     }
   };
 

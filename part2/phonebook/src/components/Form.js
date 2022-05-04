@@ -2,7 +2,7 @@ import React from "react";
 import BookService from "./BookService";
 import { useState } from "react";
 
-export default function Form({ persons, setPersons }) {
+export default function Form({ persons, setPersons, setNotification }) {
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
 
@@ -23,15 +23,19 @@ export default function Form({ persons, setPersons }) {
       ) {
         personToUpdate = { ...personToUpdate, number: newNumber };
         console.log("personToUpdate", personToUpdate);
-        BookService.update(personToUpdate.id, personToUpdate).then((updatedPerson) => {
-          
-          setPersons(
-            persons.map((person) =>
-              person.id !== personToUpdate.id ? person : updatedPerson
-            )
-          );
-          
-        });
+        BookService.update(personToUpdate.id, personToUpdate).then(
+          (updatedPerson) => {
+            setPersons(
+              persons.map((person) =>
+                person.id !== personToUpdate.id ? person : updatedPerson
+              )
+            );
+          }
+        );
+        setNotification({ content: "Added successfully", type: "success" });
+        setTimeout(() => {
+          setNotification(null);
+        }, 5000);
       }
     } else {
       let p = {
@@ -39,8 +43,14 @@ export default function Form({ persons, setPersons }) {
         number: newNumber,
       };
       setPersons(persons.concat(p));
+      setNotification({ content: "Added successfully", type: "success" });
+
       setNewName("");
       setNewNumber("");
+
+      setTimeout(() => {
+        setNotification(null);
+      }, 5000);
     }
   };
   return (
