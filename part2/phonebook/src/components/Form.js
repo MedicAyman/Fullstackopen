@@ -1,4 +1,5 @@
 import React from "react";
+import BookService from "./BookService";
 import { useState } from "react";
 
 export default function Form({ persons, setPersons }) {
@@ -13,11 +14,25 @@ export default function Form({ persons, setPersons }) {
   };
   const addName = (event) => {
     event.preventDefault();
-    if (
-      persons.map((person) => person.name).includes(newName) ||
-      persons.map((person) => person.number).includes(newNumber)
-    ) {
-      window.alert(`${newName} is already added to phonebook`);
+    if (persons.map((person) => person.name).includes(newName)) {
+      let personToUpdate = persons.find((p) => p.name === newName);
+      if (
+        window.confirm(
+          `sure wanna update ${personToUpdate.name} with ${newNumber}`
+        )
+      ) {
+        personToUpdate = { ...personToUpdate, number: newNumber };
+        console.log("personToUpdate", personToUpdate);
+        BookService.update(personToUpdate.id, personToUpdate).then((updatedPerson) => {
+          
+          setPersons(
+            persons.map((person) =>
+              person.id !== personToUpdate.id ? person : updatedPerson
+            )
+          );
+          
+        });
+      }
     } else {
       let p = {
         name: newName,
@@ -34,7 +49,7 @@ export default function Form({ persons, setPersons }) {
         name: <input value={newName} onChange={handleChangeName} />
       </div>
       <div>
-        name: <input value={newNumber} onChange={handleChangeNumber} />
+        number: <input value={newNumber} onChange={handleChangeNumber} />
       </div>
       <div>
         <button type="submit">add</button>
