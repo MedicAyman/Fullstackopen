@@ -1,12 +1,13 @@
 const mongoose = require("mongoose");
 //jKi4NDhdta70QzYe
 
+// eslint-disable-next-line no-undef
 const url = process.env.MONGODB_URI;
 
 console.log("connecting", url);
 mongoose
   .connect(url)
-  .then((result) => {
+  .then(() => {
     console.log("connected to MongoDB");
   })
   .catch((error) => {
@@ -21,12 +22,12 @@ const personSchema = new mongoose.Schema({
   },
   number: {
     type: String,
-    require: true, 
+    require: true,
     validate: {
-      validator: function(phone) {
+      validator: function (phone) {
         return /\d{3}-\d{3}-\d{4}/.test(phone);
       },
-      message: props => `${props.value} is not a valid phone number!`
+      message: (props) => `${props.value} is not a valid phone number!`,
     },
   },
 });

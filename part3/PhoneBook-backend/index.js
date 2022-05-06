@@ -6,7 +6,7 @@ const Person = require("./models/Person");
 const app = express();
 
 // or morgan(tiny)
-morgan.token("body", (req, res) => {
+morgan.token("body", (req) => {
   return req.method === "POST" ? JSON.stringify(req.body) : "-";
 });
 
@@ -14,7 +14,7 @@ const errorHandler = (error, req, res, next) => {
   if (error.name === "CastError")
     return res.status(400).send({ error: "Malformatted id" });
   else if (error.name === "ValidationError")
-    return response.status(400).json({ error: error.message });
+    return res.status(400).json({ error: error.message });
 
   next(error);
 };
@@ -34,14 +34,7 @@ app.get("/api/persons", (req, res) => {
   });
 });
 
-app.get("/info", (req, res) => {
-  res.type("html");
-  res.send(
-    `<p> there are ${
-      persons.length
-    } on the Phonebook now.</p> <p> ${new Date()} </p>`
-  );
-});
+
 
 app.get("/api/persons/:id", (req, res, next) => {
   Person.findById(req.params.id)
@@ -53,16 +46,13 @@ app.get("/api/persons/:id", (req, res, next) => {
 
 app.delete("/api/persons/:id", (req, res, next) => {
   Person.findByIdAndRemove(req.params.id)
-    .then((result) => {
+    .then(() => {
       res.status(204).end();
     })
     .catch((error) => next(error));
 });
 
-const generateId = () => {
-  const maxId = persons.length > 0 ? Math.max(...persons.map((n) => n.id)) : 0;
-  return maxId + 1;
-};
+
 
 app.post("/api/persons", (req, res, next) => {
   const body = req.body;
@@ -101,6 +91,7 @@ app.put("/api/persons/:id", (req, res, next) => {
     .catch((error) => next(error));
 });
 
+// eslint-disable-next-line no-undef
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
