@@ -51,25 +51,26 @@ const generateId = () => {
 
 app.post("/api/persons", (req, res) => {
   const body = req.body;
-  console.log("request body: ", req.body);
+ 
   if (!body.name || !body.number) {
     return res.status(400).json({
       error: "content or number is missing",
     });
   }
-  if (persons.find((p) => p.name.toUpperCase() === body.name.toUpperCase())) {
+
+  /* if (persons.find((p) => p.name.toUpperCase() === body.name.toUpperCase())) {
     return res.status(400).json({
       error: "Name must be unique",
     });
-  }
-  const person = {
+  } */
+  const person = new Person({
     name: body.name,
-    number: body.number,
-    id: generateId(),
-  };
-  persons = persons.concat(person);
+    number: body.number
+  })
 
-  res.json(person);
+  person.save().then(savedPerson => {
+    res.json(savedPerson)
+  })
 });
 
 const PORT = process.env.PORT || 3001;
