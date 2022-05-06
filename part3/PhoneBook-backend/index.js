@@ -3,7 +3,9 @@ const morgan = require("morgan");
 const cors = require('cors')
 
 const app = express();
+app.use("/", express.static('build'))
 
+console.log(__dirname)
 let persons = [
   {
     id: 1,
@@ -28,6 +30,7 @@ let persons = [
 ];
 
 app.use(cors())
+
 app.use(express.json());
 // or morgan(tiny)
 morgan.token("body", (req, res) => {
