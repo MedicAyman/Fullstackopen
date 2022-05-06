@@ -42,15 +42,24 @@ export default function Form({ persons, setPersons, setNotification }) {
         name: newName,
         number: newNumber,
       };
-      setPersons(persons.concat(p));
-      setNotification({ content: "Added successfully", type: "success" });
 
-      setNewName("");
-      setNewNumber("");
-
-      setTimeout(() => {
-        setNotification(null);
-      }, 5000);
+      BookService.create(p)
+        .then((createdPerson) => {
+          setPersons(persons.concat(p));
+          setNotification({ content: "Added successfully", type: "success" });
+          setTimeout(() => {
+            setNotification(null);
+          }, 5000);
+          setNewName("");
+          setNewNumber("");
+        })
+        .catch((error) => {
+          setNotification({ content: error.response.data, type: "error" });
+          setTimeout(() => {
+            setNotification(null);
+          }, 5000);
+          console.log("Person creation error: ", error.response.data);
+        });
     }
   };
   return (
