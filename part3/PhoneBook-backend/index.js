@@ -4,17 +4,11 @@ const morgan = require("morgan");
 const cors = require("cors");
 const Person = require("./models/Person");
 const app = express();
-app.use("/", express.static("build"));
-app.use(cors());
 
-app.use(express.json());
 // or morgan(tiny)
 morgan.token("body", (req, res) => {
   return req.method === "POST" ? JSON.stringify(req.body) : "-";
 });
-app.use(
-  morgan(":method :url :status :res[content-length] - :response-time ms :body")
-);
 
 const errorHandler = (error, req, res, next) => {
   if (error.name === "CastError")
@@ -22,7 +16,15 @@ const errorHandler = (error, req, res, next) => {
 
   next(error);
 };
-app.use(errorHandler)
+
+app.use(
+  morgan(":method :url :status :res[content-length] - :response-time ms :body")
+);
+app.use("/", express.static("build"));
+app.use(cors());
+app.use(express.json());
+
+app.use(errorHandler);
 
 app.get("/api/persons", (req, res) => {
   Person.find({}).then((persons) => {
@@ -46,9 +48,11 @@ app.get("/api/persons/:id", (req, res) => {
 });
 
 app.delete("/api/persons/:id", (req, res, next) => {
-  Person.findByIdAndRemove(req.params.id).then(result => {
-    res.status(204).end()
-  }).catch(error => next(error))
+  Person.findByIdAndRemove(req.params.id)
+    .then((result) => {
+      res.status(204).end();
+    })
+    .catch((error) => next(error));
 });
 
 const generateId = () => {
