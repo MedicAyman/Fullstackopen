@@ -1,9 +1,9 @@
 const mongoose = require("mongoose");
-
+//jKi4NDhdta70QzYe
 
 const url = process.env.MONGODB_URI;
 
-console.log("connecting");
+console.log("connecting", url);
 mongoose
   .connect(url)
   .then((result) => {
@@ -27,3 +27,4 @@ personSchema.set("toJSON", {
 });
 
 const Person = mongoose.model("Person", personSchema);
+module.exports = Person;
