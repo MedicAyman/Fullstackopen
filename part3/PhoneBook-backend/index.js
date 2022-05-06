@@ -79,7 +79,7 @@ app.post("/api/persons", (req, res, next) => {
   });
 
   person
-    .save()
+    .save({validateBeforeSave: true})
     .then((savedPerson) => {
       res.json(savedPerson);
     })
@@ -93,7 +93,7 @@ app.put("/api/persons/:id", (req, res, next) => {
     name: body.name,
     number: body.number,
   };
-
+  
   Person.findByIdAndUpdate(req.params.id, person, { new: true })
     .then((updatedPerson) => {
       res.json(updatedPerson);
