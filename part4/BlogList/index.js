@@ -1,3 +1,15 @@
+// const app = require('./app')
+// const http = require('http')
+// const config = require('./utils/config')
+// const logger = require('./utils/logger')
+
+
+// const server = http.createServer(app)
+
+// server.listen(config.PORT, () => {
+//     logger.info(`Server is running on port ${config.PORT}`)
+// })
+
 const http = require('http')
 const express = require('express')
 const app = express()
@@ -13,7 +25,7 @@ const blogSchema = new mongoose.Schema({
 
 const Blog = mongoose.model('Blog', blogSchema)
 
-const mongoUrl = 'mongodb://localhost/bloglist'
+const mongoUrl = 'mongodb+srv://Phonebook:jKi4NDhdta70QzYe@cluster0.welon.mongodb.net/BlogList?retryWrites=true&w=majority'
 mongoose.connect(mongoUrl)
 
 app.use(cors())
