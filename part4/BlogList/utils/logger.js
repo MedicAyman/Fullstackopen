@@ -1,9 +1,13 @@
-require('dotenv').config()
+/* eslint-disable no-console */
+const info = (...params) => {
+    console.log(...params)
+}
 
-const PORT = process.env.PORT
-const MONGODB_URI = process.env.MONGODB_URI
+const error = (...params) => {
+    console.error(...params)
+}
 
 module.exports = {
-    PORT, 
-    MONGODB_URI
+    info,
+    error,
 }
