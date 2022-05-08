@@ -68,6 +68,15 @@ test("likes property is NOT missing from the request default to 0", async () => 
   expect(persistedNewBlog.body.likes).toEqual("0");
 });
 
+test("title and url properties are present when new blog is posted", async () => {
+  const newBlog = {
+    author: "Depp",
+  };
+  const persistedNewBlog = await api
+    .post("/api/blogs")
+    .send(newBlog)
+    .expect(400);
+});
 afterAll(async () => {
   await mongoose.connection.close();
 });
