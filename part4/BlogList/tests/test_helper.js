@@ -1,3 +1,5 @@
+const Blog = require("../models/blog");
+
 const initialBlogs = [
   {
     author: "John Doe",
@@ -13,6 +15,13 @@ const initialBlogs = [
   },
 ];
 
+const blogsInDb = async () => {
+  const blogs = await Blog.find({});
+  return blogs.map((blog) => blog.toJSON());
+};
+
+const blogAtEnd = (blogs) => {};
 module.exports = {
   initialBlogs,
+  blogsInDb,
 };
