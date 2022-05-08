@@ -73,8 +73,28 @@ const mostBlogs = (blogs) => {
    */
   return { author: maxKey, blogs: authorsByPostsNumber[maxKey] };
 };
+
+const mostLikedAuthor = (blogs) => {
+  let author_likes = blogs.map((blog) => {
+    return { author: blog.author, likes: blog.likes };
+  });
+
+  /**
+   * { author: 'Michael Chan', likes: 7 },
+     { author: 'Edsger W. Dijkstra', likes: 5 },
+     { author: 'Edsger W. Dijkstra', likes: 12 },
+   */
+
+  //merge same authors
+  let likesCounts = author_likes.reduce((likesCount, author) => {
+    likesCount[author.author] = (likesCount[author.author] || 0) + author.likes;
+    return likesCount;
+  }, {});
+  console.log("MostLikesAuthor: ", likesCounts);
+};
 module.exports = {
   totalLikes,
   favoriteBlog,
   mostBlogs,
+  mostLikedAuthor,
 };

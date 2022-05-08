@@ -83,11 +83,16 @@ describe("most liked", () => {
   });
 });
 
-describe("author with most blogs", () => {
+// TODO: Complete the function on list_helper
+describe("author with most", () => {
   test("Author with most blog posts", () => {
     let mostPublishedAuthor = listHelper.mostBlogs(blogs);
 
     expect(mostPublishedAuthor.author).toBe("Robert C. Martin");
     expect(mostPublishedAuthor.blogs).toEqual(3);
+  });
+
+  test("Author with most likes", () => {
+    let mostlikedAuthor = listHelper.mostLikedAuthor(blogs);
   });
 });
