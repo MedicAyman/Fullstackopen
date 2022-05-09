@@ -4,12 +4,15 @@ const supertest = require("supertest");
 const app = require("../app");
 const api = supertest(app);
 const Blog = require("../models/Blog");
+const User = require("../models/user");
 const helper = require("./test_helper");
 const _ = require("lodash");
 
 beforeEach(async () => {
   await Blog.deleteMany({});
   await Blog.insertMany(helper.initialBlogs);
+  await User.deleteMany({});
+  await User.insertMany(helper.initialUsers);
 }, 100000);
 
 describe("get all blogs", () => {
@@ -80,7 +83,7 @@ describe("delete blog", () => {
   test("returns correct status code when a correct id is given", async () => {
     const initialBlogs = await helper.blogsInDb();
     const blogToDelete = initialBlogs[0];
-    console.log(blogToDelete);
+
     await api.delete(`/api/blogs/${blogToDelete.id}`).expect(204);
 
     const blogsAfterDeletion = await helper.blogsInDb();
@@ -90,23 +93,45 @@ describe("delete blog", () => {
   });
 });
 
-describe("update a blog", () => {
-  test("update amount of likes for a blog", async () => {
-    const initialBlogs = await helper.blogsInDb();
-    const firstBlog = { ...initialBlogs[0], likes: 100 };
+// describe("update a blog", () => {
+//   test("update amount of likes for a blog", async () => {
+//     const initialBlogs = await helper.blogsInDb();
+//     console.log(initialBlogs);
+//     let updatedBlogs = { ...initialBlogs };
+//     updatedBlogs[0].likes = 100;
+//     let x = updatedBlogs[0];
+//     console.log(x.id);
+//     await api
+//       .put(`/api/blogs/${updatedBlogs[0].id}`)
+//       .send(x)
+//       .expect(200)
+//       .expect("Content-Type", /application\/json/);
 
-    await api
-      .put(`/api/blogs/${firstBlog.id}`)
-      .send(firstBlog)
-      .expect(200)
-      .expect("Content-Type", /application\/json/);
+//     const blogsAfterUpdate = await helper.blogsInDb();
+//     const firstBlogAfterUpdate = blogsAfterUpdate.find(
+//       (blog) => blog.title === updatedBlogs[0].title
+//     );
+//     console.log("firstBlogAfterUpdate", firstBlogAfterUpdate);
+//     expect(firstBlogAfterUpdate.likes).toEqual(100);
+//   });
+// });
 
-    const blogsAfterUpdate = await helper.blogsInDb();
-    const firstBlogAfterUpdate = blogsAfterUpdate[0];
-    expect(firstBlogAfterUpdate.likes).toEqual(100);
+describe("test user validation", () => {
+  test("check that invalid user is not persisted", async () => {
+    const invalidUser_Required = {
+      username: "",
+      name: "hello",
+      password: "lololol",
+    };
+    await api.post("/api/users").send(invalidUser_Required).expect(400);
+    const invalidUser_unique = {
+      username: "root",
+      name: "HEYOO",
+      password: "salainen",
+    };
+    await api.post("/api/users").send(invalidUser_unique).expect(400);
   });
 });
-
 afterAll(async () => {
   await mongoose.connection.close();
 });
