@@ -89,6 +89,24 @@ describe("delete blog", () => {
     expect(titles).not.toContain(blogToDelete.title);
   });
 });
+
+describe("update a blog", () => {
+  test("update amount of likes for a blog", async () => {
+    const initialBlogs = await helper.blogsInDb();
+    const firstBlog = { ...initialBlogs[0], likes: 100 };
+
+    await api
+      .put(`/api/blogs/${firstBlog.id}`)
+      .send(firstBlog)
+      .expect(200)
+      .expect("Content-Type", /application\/json/);
+
+    const blogsAfterUpdate = await helper.blogsInDb();
+    const firstBlogAfterUpdate = blogsAfterUpdate[0];
+    expect(firstBlogAfterUpdate.likes).toEqual(100);
+  });
+});
+
 afterAll(async () => {
   await mongoose.connection.close();
 });
