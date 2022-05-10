@@ -31,14 +31,17 @@ const errorHandler = (error, request, response, next) => {
 
   next(error);
 };
-const tokenExtractor = async (req, res, next, error) => {
-  const authorization = await request.get("authorization");
+const tokenExtractor = async (req, res, next) => {
+  logger.info("extracting token");
+  console.log("ggggggg");
+  const authorization = await req.get("Authorization");
+  console.log("authorization", authorization);
   if (authorization && authorization.toLowerCase().startsWith("bearer ")) {
-    const token = authorization.substring(7);
-    req.token = token;
-    return token;
+    req.token = authorization.substring(7);
+  } else {
+    req.token = null;
   }
-  next(error);
+  next();
 };
 module.exports = {
   requestLogger,
