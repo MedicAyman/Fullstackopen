@@ -1,9 +1,8 @@
-const { transform } = require("lodash");
 const mongoose = require("mongoose");
 const supertest = require("supertest");
 const app = require("../app");
 const api = supertest(app);
-const Blog = require("../models/Blog");
+const Blog = require("../models/blog");
 const User = require("../models/user");
 const helper = require("./test_helper");
 const _ = require("lodash");
@@ -115,6 +114,20 @@ describe("delete blog", () => {
 //     expect(firstBlogAfterUpdate.likes).toEqual(100);
 //   });
 // });
+
+describe("update a blog using PUT", () => {
+  test("update amoutof likes", async () => {
+    const initialBlogs = await helper.blogsInDb();
+    const newBlogLikes = {
+      likes: "100",
+    };
+    const updatedBlog = await api
+      .put(`/api/blogs/${initialBlogs[0].id.toString()}`)
+      .send(newBlogLikes)
+      .expect(200);
+    expect(updatedBlog.body.likes).toBe(newBlogLikes.likes);
+  });
+});
 
 describe("test user validation", () => {
   test("check that invalid user is not persisted", async () => {

@@ -1,7 +1,6 @@
 const mongoose = require("mongoose");
 
 const blogSchema = mongoose.Schema({
-  id: String,
   author: String,
   title: {
     type: String,
@@ -26,7 +25,9 @@ blogSchema.set("toJSON", {
     returnedObject.id = returnedObject._id;
     delete returnedObject._id;
     delete returnedObject.__v;
+    return returnedObject;
   },
 });
+const Blog = mongoose.model("Blog", blogSchema);
 
-module.exports = mongoose.model("Blog", blogSchema);
+module.exports = Blog;
