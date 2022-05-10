@@ -1,5 +1,7 @@
 const logger = require("./logger");
-
+const jwt = require("jsonwebtoken");
+const User = require("../models/user");
+const loginRouter = require("../controllers/login");
 const requestLogger = (request, response, next) => {
   logger.info("Method:", request.method);
   logger.info("Path:  ", request.path);
@@ -31,15 +33,37 @@ const errorHandler = (error, request, response, next) => {
 
   next(error);
 };
-const tokenExtractor = async (req, res, next) => {
-  logger.info("extracting token");
-  console.log("ggggggg");
-  const authorization = await req.get("Authorization");
-  console.log("authorization", authorization);
+
+// const userExtractor = async (req, res, next, error) => {
+//   logger.info("extracting token...");
+//   const authorization = await req.get("Authorization");
+//   if (authorization && authorization.toLowerCase().startsWith("bearer ")) {
+//     req.token = authorization.substring(7);
+//   } else {
+//     req.token = null;
+//   }
+//   logger.info("user extraction....");
+//   if (req.token) {
+//     const decodedToken = jwt.verify(req.token, process.env.SECRET);
+//     const user = await User.findById(decodedToken.id);
+//     req.user = user;
+//   } else {
+//     req.user = null;
+//   }
+//   next(error);
+// };
+const tokenExtractor = (request, response, next) => {
+  const authorization = request.get("authorization");
   if (authorization && authorization.toLowerCase().startsWith("bearer ")) {
-    req.token = authorization.substring(7);
-  } else {
-    req.token = null;
+    request.token = authorization.substring(7);
+  } else request.token = null;
+  next();
+};
+
+const userExtractor = async (request, response, next) => {
+  if (request.token !== null) {
+    const decodedToken = jwt.verify(request.token, process.env.SECRET);
+    request.user = await User.findById(decodedToken.id);
   }
   next();
 };
@@ -48,4 +72,5 @@ module.exports = {
   unknownEndpoint,
   errorHandler,
   tokenExtractor,
+  userExtractor,
 };
