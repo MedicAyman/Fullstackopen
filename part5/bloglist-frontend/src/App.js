@@ -1,3 +1,4 @@
+// TODO add compoenent rerender when a blog is deleted
 import { BlogForm } from "./components/BlogForm";
 import { LoginForm } from "./components/LoginForm";
 import { useState, useEffect, useRef } from "react";

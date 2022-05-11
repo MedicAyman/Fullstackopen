@@ -1,7 +1,11 @@
 import React, { useState } from "react";
 
 export function BlogForm({ handleCreateBlog }) {
-  const [newBlog, setNewBlog] = useState({});
+  const [newBlog, setNewBlog] = useState({
+    title: "",
+    author: "",
+    url: "",
+  });
 
   const addBlog = (event) => {
     event.preventDefault();

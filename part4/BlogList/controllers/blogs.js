@@ -46,11 +46,15 @@ blogsRouter.post("/", middleware.userExtractor, async (req, res, next) => {
 
 blogsRouter.delete("/:id", async (req, res, next) => {
   const token = req.token;
+
   const decodedToken = jwt.verify(token, process.env.SECRET);
-  const blog = Blog.findById(req.params.id);
-  logger.info();
-  if (blog.user === decodedToken.id)
+  const blog = await Blog.findById(req.params.id);
+  if (blog.user.toString() === decodedToken.id) {
+    logger.info("deleting");
     await Blog.findByIdAndRemove(req.params.id);
+  } else {
+    console.log("Unauthorized");
+  }
   res.status(204).end();
 });
 

@@ -3,9 +3,11 @@ import blogServices from "../services/blog";
 const Blog = ({ blog }) => {
   const [visible, setVisible] = useState(false);
   const [likes, setLikes] = useState(null);
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
     setLikes(blog.likes);
+    setUser(JSON.parse(window.localStorage.getItem("loggedBlogappUser")));
   }, [blog.likes]);
   const hideWhenVisible = { display: visible ? "none" : "" };
   const showWhenVisible = { display: visible ? "" : "none" };
@@ -27,20 +29,41 @@ const Blog = ({ blog }) => {
       likes: likes,
     });
   };
+
+  const deleteBlog = async () => {
+    try {
+      if (window.confirm("Are you sure you wanna delte this post?")) {
+        blogServices.remove(blog, user.token);
+      }
+    } catch (error) {
+      console.log("could not delete it", error);
+    }
+  };
+  let deleteBtn;
+  if (user) {
+    if (user.name === blog.author) {
+      deleteBtn = <button onClick={deleteBlog}>delete</button>;
+    } else {
+      deleteBtn = "";
+    }
+  }
+
   return (
     <div style={blogStyle}>
       <p style={hideWhenVisible}>
         {blog.title} <button onClick={toggleVisibility}>View</button>{" "}
+        {deleteBtn}
         <button onClick={addLike}>Like</button>
       </p>
       <div style={showWhenVisible}>
-        <p>{blog.title}</p>
+        <p></p>
         <p>Author: {blog.author} </p>
         <p>Url: {blog.url}</p>
         <p>Likes: {likes}</p>
         <p>
           <button onClick={addLike}>Like</button>
         </p>
+        <p>{deleteBtn}</p>
         <button onClick={toggleVisibility}>Hide</button>
       </div>
     </div>
