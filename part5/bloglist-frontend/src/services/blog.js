@@ -8,7 +8,9 @@ const setToken = (newToken) => {
 };
 const getAll = async () => {
   const response = await axios.get(baseUrl);
-  return response.data;
+  return response.data.sort((a, b) => {
+    return Number(b.likes) - Number(a.likes);
+  });
 };
 const update = async (newObject) => {
   const response = await axios.put(`${baseUrl}/${newObject.id}`, newObject);

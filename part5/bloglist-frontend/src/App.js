@@ -90,7 +90,16 @@ const App = () => {
     }
   };
   useEffect(() => {
-    blogService.getAll().then((blogs) => setBlogs(blogs));
+    const getBlogs = async () => {
+      try {
+        const blogsList = await blogService.getAll();
+
+        setBlogs(blogsList);
+      } catch (error) {
+        setNotification({ message: error, type: "error" });
+      }
+    };
+    getBlogs();
   }, []);
 
   return (
