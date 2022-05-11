@@ -1,25 +1,25 @@
-import React, { useState } from "react";
+import React, { useState } from 'react'
 
 export function BlogForm({ handleCreateBlog }) {
   const [newBlog, setNewBlog] = useState({
-    title: "",
-    author: "",
-    url: "",
-  });
+    title: '',
+    author: '',
+    url: '',
+  })
 
   const addBlog = (event) => {
-    event.preventDefault();
+    event.preventDefault()
     handleCreateBlog({
       title: newBlog.title,
       author: newBlog.author,
       url: newBlog.url,
-    });
+    })
     setNewBlog({
-      title: "",
-      author: "",
-      url: "",
-    });
-  };
+      title: '',
+      author: '',
+      url: '',
+    })
+  }
 
   return (
     <form onSubmit={addBlog}>
@@ -54,5 +54,5 @@ export function BlogForm({ handleCreateBlog }) {
       </div>
       <button type="submit">create</button>
     </form>
-  );
+  )
 }

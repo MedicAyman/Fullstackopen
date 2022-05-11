@@ -1,57 +1,57 @@
-import React, { useEffect, useState } from "react";
-import blogServices from "../services/blog";
+import React, { useEffect, useState } from 'react'
+import blogServices from '../services/blog'
 const Blog = ({ blog }) => {
-  const [visible, setVisible] = useState(false);
-  const [likes, setLikes] = useState(null);
-  const [user, setUser] = useState(null);
+  const [visible, setVisible] = useState(false)
+  const [likes, setLikes] = useState(null)
+  const [user, setUser] = useState(null)
 
   useEffect(() => {
-    setLikes(blog.likes);
-    setUser(JSON.parse(window.localStorage.getItem("loggedBlogappUser")));
-  }, [blog.likes]);
-  const hideWhenVisible = { display: visible ? "none" : "" };
-  const showWhenVisible = { display: visible ? "" : "none" };
+    setLikes(blog.likes)
+    setUser(JSON.parse(window.localStorage.getItem('loggedBlogappUser')))
+  }, [blog.likes])
+  const hideWhenVisible = { display: visible ? 'none' : '' }
+  const showWhenVisible = { display: visible ? '' : 'none' }
   const toggleVisibility = () => {
-    setVisible(!visible);
-  };
+    setVisible(!visible)
+  }
   const blogStyle = {
     paddingTop: 10,
     paddingLeft: 2,
-    border: "solid",
+    border: 'solid',
     borderWidth: 1,
     marginBottom: 5,
-  };
+  }
 
   const addLike = () => {
-    setLikes((+likes + 1).toString());
+    setLikes((+likes + 1).toString())
     blogServices.update({
       ...blog,
       likes: likes,
-    });
-  };
+    })
+  }
 
   const deleteBlog = async () => {
     try {
-      if (window.confirm("Are you sure you wanna delte this post?")) {
-        blogServices.remove(blog, user.token);
+      if (window.confirm('Are you sure you wanna delte this post?')) {
+        blogServices.remove(blog, user.token)
       }
     } catch (error) {
-      console.log("could not delete it", error);
+      console.log('could not delete it', error)
     }
-  };
-  let deleteBtn;
+  }
+  let deleteBtn
   if (user) {
     if (user.name === blog.author) {
-      deleteBtn = <button onClick={deleteBlog}>delete</button>;
+      deleteBtn = <button onClick={deleteBlog}>delete</button>
     } else {
-      deleteBtn = "";
+      deleteBtn = ''
     }
   }
 
   return (
     <div style={blogStyle}>
       <p style={hideWhenVisible}>
-        {blog.title} <button onClick={toggleVisibility}>View</button>{" "}
+        {blog.title} <button onClick={toggleVisibility}>View</button>{' '}
         {deleteBtn}
         <button onClick={addLike}>Like</button>
       </p>
@@ -67,7 +67,7 @@ const Blog = ({ blog }) => {
         <button onClick={toggleVisibility}>Hide</button>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Blog;
+export default Blog

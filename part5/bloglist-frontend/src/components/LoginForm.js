@@ -1,4 +1,6 @@
-import React from "react";
+import React from 'react'
+import PropTypes from 'prop-types'
+
 export function LoginForm({
   handleLogin,
   username,
@@ -28,5 +30,13 @@ export function LoginForm({
       </div>
       <button type="submit">submit</button>
     </form>
-  );
+  )
+}
+
+LoginForm.propTypes = {
+  handleLogin: PropTypes.func.isRequired,
+  setUsername: PropTypes.func.isRequired,
+  setPassword: PropTypes.func.isRequired,
+  username: PropTypes.string.isRequired,
+  password: PropTypes.string.isRequired,
 }
