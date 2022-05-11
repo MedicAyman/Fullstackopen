@@ -9,7 +9,10 @@ const App = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [user, setUser] = useState(null);
-  const [errorMessage, setErrorMessage] = useState(null);
+  const [notification, setNotification] = useState({
+    message: null,
+    type: null,
+  });
   const [newBlog, setNewBlog] = useState({
     title: "",
     author: "",
@@ -17,7 +20,7 @@ const App = () => {
   });
 
   useEffect(() => {
-    const loggedUserJSON = window.localStorage.getItem("loggedNoteappUser");
+    const loggedUserJSON = window.localStorage.getItem("loggedBlogappUser");
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON);
       setUser(user);
@@ -33,10 +36,26 @@ const App = () => {
       setUser(user);
       setUsername("");
       setPassword("");
-    } catch (exception) {
-      setErrorMessage("wrong credentials");
+      setNotification({
+        message: "logged in",
+        type: "success",
+      });
       setTimeout(() => {
-        setErrorMessage(null);
+        setNotification({
+          message: null,
+          type: null,
+        });
+      }, 5000);
+    } catch (exception) {
+      setNotification({
+        message: "wrong credentials",
+        type: "error",
+      });
+      setTimeout(() => {
+        setNotification({
+          message: null,
+          type: null,
+        });
       }, 5000);
     }
   };
@@ -55,10 +74,26 @@ const App = () => {
         author: "",
         url: "",
       });
-    } catch (exception) {
-      setErrorMessage("an error occured");
+      setNotification({
+        message: "created successfully",
+        type: "success",
+      });
       setTimeout(() => {
-        setErrorMessage(null);
+        setNotification({
+          message: null,
+          type: null,
+        });
+      }, 5000);
+    } catch (exception) {
+      setNotification({
+        message: "an errror occured",
+        type: "error",
+      });
+      setTimeout(() => {
+        setNotification({
+          message: null,
+          type: null,
+        });
       }, 5000);
     }
   };
@@ -68,7 +103,7 @@ const App = () => {
 
   return (
     <div>
-      <Notification message={errorMessage} />
+      <Notification notification={notification} />
       {user === null ? (
         <form onSubmit={handleLogin}>
           <div>
