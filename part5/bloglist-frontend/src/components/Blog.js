@@ -1,4 +1,12 @@
+import React, { useState } from "react";
+
 const Blog = ({ blog }) => {
+  const [visible, setVisible] = useState(false);
+  const hideWhenVisible = { display: visible ? "none" : "" };
+  const showWhenVisible = { display: visible ? "" : "none" };
+  const toggleVisibility = () => {
+    setVisible(!visible);
+  };
   const blogStyle = {
     paddingTop: 10,
     paddingLeft: 2,
@@ -9,7 +17,16 @@ const Blog = ({ blog }) => {
 
   return (
     <div style={blogStyle}>
-      {blog.title} {blog.author}
+      <p style={hideWhenVisible}>
+        {blog.title} <button onClick={toggleVisibility}>View</button>
+      </p>
+      <div style={showWhenVisible}>
+        <p>{blog.title}</p>
+        <p>Author: {blog.author} </p>
+        <p>Url: {blog.url}</p>
+        <p>Likes: {blog.likes}</p>
+        <button onClick={toggleVisibility}>Hide</button>
+      </div>
     </div>
   );
 };
