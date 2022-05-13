@@ -1,5 +1,6 @@
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import AnecdotesList from "./components/AnecdotesList";
+import AnecdoteForm from "./components/AnecdoteForm";
 
 const App = () => {
   const anecdotes = useSelector((state) => state);
@@ -9,12 +10,7 @@ const App = () => {
       <h2>Anecdotes</h2>
       <AnecdotesList anecdotes={anecdotes} />
       <h2>create new</h2>
-      <form>
-        <div>
-          <input />
-        </div>
-        <button>create</button>
-      </form>
+      <AnecdoteForm />
     </div>
   );
 };
