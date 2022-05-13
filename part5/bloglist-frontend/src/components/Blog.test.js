@@ -1,8 +1,17 @@
+/*
+TODO:
+    - 5.15: Blog list tests, step3
+    - 5.16: Blog list tests, step4
+*/
+
 import React from 'react'
 import '@testing-library/jest-dom/extend-expect'
-import { render, screen } from '@testing-library/react'
+import { render, screen, fireEvent } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import Blog from './Blog'
+import axiosMock from 'axios'
+
+
 
 const b = {
   title: 'LUNA chain is effed',
@@ -26,7 +35,7 @@ describe('<Blog />', () => {
     expect(div).not.toHaveStyle('display: none')
   })
   test('blogs url and number of likes are shown when the show button is clicked', async () => {
-    const mockHandler = jest.fn()
+
     let container = render(
       <Blog blog={b} />
     ).container
@@ -35,6 +44,18 @@ describe('<Blog />', () => {
     await user.click(button)
     let div = container.querySelector('.blog-details')
     expect(div).not.toHaveStyle('display: none')
+  })
+
+  test('ensures that if the like button works', async () => {
+    let container = render(
+      <Blog blog={b} />
+    ).container
+
+    const mockHandler = jest.fn()
+    const user = userEvent.setup()
+    const button = container.querySelector('.likeButton')
+    await user.click(button)
+    expect(mockHandler.mock.calls.length).toHaveLength(2)
   })
 
 })

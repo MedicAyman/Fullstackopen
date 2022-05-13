@@ -54,7 +54,7 @@ const Blog = ({ blog }) => {
         {blog.title}-by {blog.author}
         <button onClick={toggleVisibility} className="view-button">View Blog</button>{' '}
         {deleteBtn}
-        <button onClick={addLike}>Like</button>
+        <button onClick={addLike} className="likeButton">Like!</button>
       </div>
       <div style={showWhenVisible} className='blog-details'>
         <p></p>
