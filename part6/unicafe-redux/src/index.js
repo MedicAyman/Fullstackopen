@@ -1,34 +1,16 @@
 import React from 'react';
-import ReactDOM from 'react-dom/client'
-import { createStore } from 'redux'
-import reducer from './reducer'
+import ReactDOM from 'react-dom/client';
 
-const store = createStore(reducer)
+import App from './App';
 
-const App = () => {
-  const good = () => {
-    store.dispatch({
-      type: 'GOOD'
-    })
-  }
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>
+);
 
-  return (
-    <div>
-      <button onClick={good}>good</button>
-      <button>ok</button>
-      <button>bad</button>
-      <button>reset stats</button>
-      <div>good {store.getState().good}</div>
-      <div>ok</div>
-      <div>bad</div>
-    </div>
-  )
-}
+// If you want to start measuring performance in your app, pass a function
+// to log results (for example: reportWebVitals(console.log))
+// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 
-const root = ReactDOM.createRoot(document.getElementById('root'))
-const renderApp = () => {
-  root.render(<App />)
-}
-
-renderApp()
-store.subscribe(renderApp)
