@@ -1,4 +1,3 @@
-import { useSelector } from "react-redux";
 import AnecdotesList from "./components/AnecdotesList";
 import AnecdoteForm from "./components/AnecdoteForm";
 
