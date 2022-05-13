@@ -21,4 +21,28 @@ const counterReducer = (state = initialState, action) => {
   
 }
 
+export const good = () => {
+  return {
+    type: 'GOOD'
+  };
+};
+
+export const ok = () => {
+  return {
+    type: 'OK'
+  };
+};
+
+export const bad = () => {
+  return {
+    type: 'BAD'
+  };
+};
+
+export const zero = () => {
+  return {
+    type: 'ZERO'
+  };
+};
+
 export default counterReducer
