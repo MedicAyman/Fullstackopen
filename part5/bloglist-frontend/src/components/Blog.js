@@ -50,12 +50,12 @@ const Blog = ({ blog }) => {
 
   return (
     <div style={blogStyle} className="">
-      <p style={hideWhenVisible} className="minimalBlog">
+      <div style={hideWhenVisible} className="minimalBlog">
         {blog.title}-by {blog.author}
-        <button onClick={toggleVisibility}>View</button>{' '}
+        <button onClick={toggleVisibility} className="view-button">View Blog</button>{' '}
         {deleteBtn}
         <button onClick={addLike}>Like</button>
-      </p>
+      </div>
       <div style={showWhenVisible} className='blog-details'>
         <p></p>
         <p className='blog-author'>Author: {blog.author} </p>

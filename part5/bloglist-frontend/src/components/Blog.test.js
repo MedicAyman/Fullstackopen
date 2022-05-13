@@ -18,12 +18,22 @@ const b = {
 }
 
 describe('<Blog />', () => {
-
   test('at start the only author and title are displayed', () => {
     let container = render(
       <Blog blog={b} />
     ).container
     const div = container.querySelector('.minimalBlog')
+    expect(div).not.toHaveStyle('display: none')
+  })
+  test('blogs url and number of likes are shown when the show button is clicked', async () => {
+    const mockHandler = jest.fn()
+    let container = render(
+      <Blog blog={b} />
+    ).container
+    const user = userEvent.setup()
+    const button  = screen.getByText('View Blog')
+    await user.click(button)
+    let div = container.querySelector('.blog-details')
     expect(div).not.toHaveStyle('display: none')
   })
 
