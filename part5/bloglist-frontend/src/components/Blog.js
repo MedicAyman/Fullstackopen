@@ -49,17 +49,18 @@ const Blog = ({ blog }) => {
   }
 
   return (
-    <div style={blogStyle}>
-      <p style={hideWhenVisible}>
-        {blog.title} <button onClick={toggleVisibility}>View</button>{' '}
+    <div style={blogStyle} className="">
+      <p style={hideWhenVisible} className="minimalBlog">
+        {blog.title}-by {blog.author}
+        <button onClick={toggleVisibility}>View</button>{' '}
         {deleteBtn}
         <button onClick={addLike}>Like</button>
       </p>
-      <div style={showWhenVisible}>
+      <div style={showWhenVisible} className='blog-details'>
         <p></p>
-        <p>Author: {blog.author} </p>
-        <p>Url: {blog.url}</p>
-        <p>Likes: {likes}</p>
+        <p className='blog-author'>Author: {blog.author} </p>
+        <p className='blog-url'>Url: {blog.url}</p>
+        <p className='blog-likes'>Likes: {likes}</p>
         <p>
           <button onClick={addLike}>Like</button>
         </p>
