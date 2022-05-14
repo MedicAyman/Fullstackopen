@@ -9,9 +9,17 @@ const AnecdotesList = (props) => {
     sortedAnecdotes.sort((a, b) => b.votes - a.votes);
     return sortedAnecdotes;
   });
+
+  const filteredAnecdotes = useSelector((state) => {
+    if (state.filter.query === "") {
+      return anecdotes;
+    }
+    return state.filter.anecdotesFiltered;
+  });
+
   return (
     <div>
-      {anecdotes.map((anecdote) => (
+      {filteredAnecdotes.map((anecdote) => (
         <Anecdote
           key={anecdote.id}
           anecdote={anecdote}
