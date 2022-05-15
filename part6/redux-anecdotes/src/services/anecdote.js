@@ -22,11 +22,9 @@ const createNew = async (content) => {
 const update = async (object) => {
   try {
     const response = await axios.put(`${baseUrl}/${object.id}`, object);
-    console.log("udpate axios: ", response);
+
     return response.data;
-  } catch (error) {
-    console.log("axios error: udpate", error);
-  }
+  } catch (error) {}
 };
 
 // eslint-disable-next-line import/no-anonymous-default-export
