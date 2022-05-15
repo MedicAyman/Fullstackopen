@@ -5,6 +5,7 @@ import {
   createNotification,
   removeNotification,
 } from "../reducers/notificationsReducer";
+import blogService from "../services/blog";
 const AnecdoteForm = (props) => {
   const dispatch = useDispatch();
 
@@ -13,7 +14,8 @@ const AnecdoteForm = (props) => {
     const content = event.target.anecdoteContent.value;
     event.target.anecdoteContent.value = "";
 
-    dispatch(createAnecdote(content));
+    const newBlog = await blogService.createNew(content);
+    dispatch(createAnecdote(newBlog));
     dispatch(createNotification("Anecdote created!"));
     await setTimeout(() => {
       dispatch(removeNotification());
