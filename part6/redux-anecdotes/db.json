@@ -1,5 +1,5 @@
 {
-  "blogs": [
+  "anecdotes": [
     {
       "content": "If it hurts, do it more often",
       "id": "47145",
@@ -43,6 +43,11 @@
     {
       "content": "qqqqq",
       "id": "51018",
+      "vote": 0
+    },
+    {
+      "content": "qsdqs",
+      "id": "98066",
       "vote": 0
     }
   ]

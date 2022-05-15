@@ -1,14 +1,18 @@
 import React, { useEffect } from "react";
 import Anecdote from "./Anecdote";
-import { addVoteAnecdote, setBlogs } from "../reducers/anecdoteReducer";
+import {
+  addVoteAnecdote,
+  setAnecdotes,
+  initializeAnecdotes,
+} from "../reducers/anecdoteReducer";
 import { useSelector, useDispatch } from "react-redux";
-import blogService from "../services/blog";
+import blogService from "../services/anecdote";
 
 const AnecdotesList = (props) => {
   const dispatch = useDispatch();
   useEffect(() => {
-    blogService.getAll().then((blogs) => dispatch(setBlogs(blogs)));
-  }, [dispatch]);
+    dispatch(initializeAnecdotes());
+  }, []);
 
   const anecdotes = useSelector(({ anecdotes }) => {
     let sortedAnecdotes = [...anecdotes];
