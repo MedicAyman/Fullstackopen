@@ -1,9 +1,15 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Anecdote from "./Anecdote";
-import { addVoteAnecdote } from "../reducers/anecdoteReducer";
-import { useSelector } from "react-redux";
+import { addVoteAnecdote, setBlogs } from "../reducers/anecdoteReducer";
+import { useSelector, useDispatch } from "react-redux";
+import blogService from "../services/blog";
 
 const AnecdotesList = (props) => {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    blogService.getAll().then((blogs) => dispatch(setBlogs(blogs)));
+  }, [dispatch]);
+
   const anecdotes = useSelector(({ anecdotes }) => {
     let sortedAnecdotes = [...anecdotes];
     sortedAnecdotes.sort((a, b) => b.votes - a.votes);
