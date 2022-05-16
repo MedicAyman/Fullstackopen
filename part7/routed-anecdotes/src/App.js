@@ -100,6 +100,11 @@ const CreateNew = (props) => {
     });
   };
 
+  const resetFields = () => {
+    content.reset();
+    author.reset();
+    info.reset();
+  };
   return (
     <div>
       <h2>create a new anecdote</h2>
@@ -118,6 +123,7 @@ const CreateNew = (props) => {
         </div>
         <button>create</button>
       </form>
+      <button onClick={resetFields}>reset</button>
     </div>
   );
 };
